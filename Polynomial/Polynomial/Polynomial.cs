@@ -122,7 +122,8 @@ namespace Polynomial
             Polynomial result = new Polynomial();
 
             int maxDegree = Math.Max(p1.MaxDegree, p2.MaxDegree);
-            for (int degree = 0; degree <= maxDegree; degree++)
+            int minDegree = Math.Min(p1.MinDegree, p2.MinDegree);
+            for (int degree = minDegree; degree <= maxDegree; degree++)
             {
                 double coef = p1.GetCoeff(degree) + p2.GetCoeff(degree);
 
@@ -136,7 +137,8 @@ namespace Polynomial
             Polynomial result = new Polynomial();
 
             int maxDegree = Math.Max(p1.MaxDegree, p2.MaxDegree);
-            for (int degree = 0; degree <= maxDegree; degree++)
+            int minDegree = Math.Min(p1.MinDegree, p2.MinDegree);
+            for (int degree = minDegree; degree <= maxDegree; degree++)
             {
                 double coef = p1.GetCoeff(degree) - p2.GetCoeff(degree);
 
@@ -149,9 +151,9 @@ namespace Polynomial
         {
             Polynomial result = new Polynomial();
 
-            for (int degree1 = 0; degree1 <= p1.MaxDegree; degree1++)
+            for (int degree1 = p1.MinDegree; degree1 <= p1.MaxDegree; degree1++)
             {
-                for (int degree2 = 0; degree2 <= p2.MaxDegree; degree2++)
+                for (int degree2 = p2.MinDegree; degree2 <= p2.MaxDegree; degree2++)
                 {
                     double coef = p1.GetCoeff(degree1) * p2.GetCoeff(degree2);
                     int degree = degree1 + degree2;
@@ -181,6 +183,27 @@ namespace Polynomial
                 }
 
                 return maxDegree;
+            }
+        }
+        public int MinDegree
+        {
+            get
+            {
+                if (Count <= 0)
+                    return 0;
+
+                int minDegree = base[0].Degree;
+                for (int i = 1; i < Count; i++)
+                {
+                    Term term = base[i];
+
+                    if (term.Degree < minDegree)
+                    {
+                        minDegree = term.Degree;
+                    }
+                }
+
+                return minDegree;
             }
         }
     }
